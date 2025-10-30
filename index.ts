@@ -19,6 +19,6 @@ app.listen(PORT, () => {
 })
 
 app.post('/', async (req, res) => {
-  await Bun.write('.env', 'BBB=HAHAH')
+  await Bun.write('/app/data/.env', 'BBB=HAHAH') // Write to mounted volume
   res.send('written successfully')
 })
