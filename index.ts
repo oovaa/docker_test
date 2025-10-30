@@ -1,3 +1,4 @@
+import { file } from 'bun'
 import express from 'express'
 
 const PORT = 4555
@@ -9,5 +10,10 @@ app.get('/', (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`app is runneing on localhost:${PORT}`)
+  console.log(`app is runneing on localhost:${PORT} env var is ${Bun.env.BBB}`)
+})
+
+app.post('/', (req, res) => {
+  Bun.write('.env', 'BBB=HAHAH')
+  res.send('written successfully')
 })
