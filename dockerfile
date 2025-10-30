@@ -8,6 +8,10 @@ COPY *.json ./
 
 RUN bun install
 
+RUN echo "test=tete" > .env
+
+
+
 COPY . .
 
 EXPOSE 4555
