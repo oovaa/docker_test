@@ -2,7 +2,7 @@ services:
   web:
     image: nginx:alpine
     ports:
-      - "8000:80"
+      - "8022:80"
   db:
     image: postgres:12
     environment:
