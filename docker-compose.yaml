@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: example
