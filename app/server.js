@@ -24,8 +24,8 @@ let mongoUrlDockerCompose = `mongodb://${DB_USER}:${DB_PASS}@mongodb`;
 let mongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 // the following db and collection will be created on first connect
-let databaseName = "my-db";
-let collectionName = "my-collection";
+let databaseName = "test";
+let collectionName = "coll1";
 
 app.get('/fetch-data', function (req, res) {
   let response = {};
@@ -47,7 +47,7 @@ app.get('/fetch-data', function (req, res) {
   });
 });
 
-app.listen(3000, function () {
-  console.log("app listening on port 3000!");
+app.listen(3022, function () {
+  console.log("app listening on port 3022!");
 });
 

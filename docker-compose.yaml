@@ -1,5 +1,12 @@
 version: '3'
 services:
+  myapp:
+    build: .
+    ports:
+      - 3022:3022
+    environment:
+      MONGO_DB_USERNAME: admin
+      MONGO_DB_PWD: 11
   mongodb:
     image: mongo
     ports:

@@ -1,12 +1,14 @@
-FROM oven/bun:1.3.1-alpine 
+FROM node:20-alpine
 
-WORKDIR /app
+RUN mkdir -p /home/app
 
-COPY *.json ./
-RUN bun install
+COPY ./app /home/app
 
-COPY . .
+# set default dir so that next commands executes in /home/app dir
+WORKDIR /home/app
 
-EXPOSE 4555
+# will execute npm install in /home/app because of WORKDIR
+RUN npm install
 
-CMD ["bun", "start"]
+# no need for /home/app/server.js because of WORKDIR
+CMD ["node", "server.js"]
