@@ -1,13 +1,11 @@
 import { redis, RedisClient } from 'bun'
 
-// Using the default client (reads connection info from environment)
-// process.env.REDIS_URL is used by default
-await redis.set('hello', 'world')
-const result = await redis.get('hello')
+// Change FROM this (with authentication):
+// const client = new RedisClient('redis://omar:1@localhost:6370')
 
-// Creating a custom client
+// TO this (no authentication):
 const client = new RedisClient('redis://localhost:6370')
+
 await client.set('counter', '0')
 await client.incr('counter')
-
-console.log(await client.get('counter'), result)
+console.log(await client.get('counter'))
