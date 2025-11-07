@@ -1,24 +1,13 @@
-import { file } from 'bun'
-import express from 'express'
+import { redis, RedisClient } from 'bun'
 
-const PORT = 4555
+// Using the default client (reads connection info from environment)
+// process.env.REDIS_URL is used by default
+await redis.set('hello', 'world')
+const result = await redis.get('hello')
 
-const app = express()
+// Creating a custom client
+const client = new RedisClient('redis://omar:1@localhost:6370')
+await client.set('counter', '0')
+await client.incr('counter')
 
-app.get('/', (req, res) => {
-  res.json({
-    status: 'sucess',
-    data: `app is runneing on localhost:${PORT} env var is ${Bun.env.BBB} and test is ${Bun.env.test}`,
-  })
-})
-
-app.listen(PORT, () => {
-  console.log(
-    `app is runneing on localhost:${PORT} env var is ${Bun.env.BBB} and test is ${Bun.env.test}`
-  )
-})
-
-app.post('/', async (req, res) => {
-  await Bun.write('/app/data/.env', 'BBB=HAHAH') // Write to mounted volume
-  res.send('written successfully')
-})
+console.log(await client.get('counter'), result)
