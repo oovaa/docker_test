@@ -12,3 +12,4 @@ await client.set('counter', '0')
 await client.incr('counter')
 
 console.log(await client.get('counter'), result)
+console.log(await client.get('tata'))
