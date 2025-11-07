@@ -6,7 +6,7 @@ await redis.set('hello', 'world')
 const result = await redis.get('hello')
 
 // Creating a custom client
-const client = new RedisClient('redis://omar:1@localhost:6370')
+const client = new RedisClient('redis://localhost:6370')
 await client.set('counter', '0')
 await client.incr('counter')
 
