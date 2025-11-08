@@ -77,6 +77,9 @@ app.use((err: any, req: any, res: any, next: any) => {
   res.status(500).json({ stat: 'error', message: 'Something went wrong!' })
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port localhost:${port}`)
+// @ts-ignore
+app.listen(port, '0.0.0.0', () => {
+  console.log(
+    `Example app listening on port ${port} (accessible from external connections)`
+  )
 })
