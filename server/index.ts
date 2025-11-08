@@ -2,11 +2,11 @@ import express, { json } from 'express'
 import { RedisClient } from 'bun'
 
 const port = Bun.env.PPORT || 3355
-const redis_port = Bun.env.REDIS_PORT || 3333
+const redis_port = Bun.env.REDIS_PORT || 6370
 const client = new RedisClient(`redis://localhost:${redis_port}`)
 const app = express()
 
-// Add middleware to parse JSON bodies
+// Add middleware to parse JSON bodiesg
 app.use(json())
 
 app.get('/', (req, res) => {
