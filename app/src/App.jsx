@@ -1,0 +1,187 @@
+import React, { useEffect, useState } from 'react'
+
+const api = {
+  getAll: () => fetch('/getall').then((r) => r.json()),
+  getVal: (key) =>
+    fetch('/getVal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key }),
+    }).then((r) => r.json()),
+  setVal: (key, val) =>
+    fetch('/setVal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, val }),
+    }).then((r) => r.json()),
+  deleteVal: (key) =>
+    fetch('/deleteV', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key }),
+    }).then((r) => r.json()),
+}
+
+function KeyItem({ k, onGet, onDelete }) {
+  return (
+    <li className='key-row'>
+      <div className='key-name'>{k}</div>
+      <div className='key-actions'>
+        <button className='small-action' onClick={() => onGet(k)}>
+          Get
+        </button>
+        <button className='small-action danger' onClick={() => onDelete(k)}>
+          Del
+        </button>
+      </div>
+    </li>
+  )
+}
+
+export default function App() {
+  const [keys, setKeys] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [getResult, setGetResult] = useState('—')
+  const [delResult, setDelResult] = useState('—')
+  const [setKey, setSetKey] = useState('')
+  const [setVal, setSetVal] = useState('')
+  const [getKey, setGetKey] = useState('')
+  const [delKey, setDelKey] = useState('')
+
+  async function refresh() {
+    setLoading(true)
+    try {
+      const res = await api.getAll()
+      const list = res.data || res // tolerate stat/data differences
+      setKeys(list || [])
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    refresh()
+  }, [])
+
+  async function handleSet() {
+    if (!setKey) return
+    const res = await api.setVal(setKey, setVal)
+    setSetKey('')
+    setSetVal('')
+    refresh()
+    alert(JSON.stringify(res))
+  }
+
+  async function handleGet(k) {
+    const key = k || getKey
+    if (!key) return
+    const res = await api.getVal(key)
+    setGetResult(JSON.stringify(res, null, 2))
+  }
+
+  async function handleDelete(k) {
+    const key = k || delKey
+    if (!key) return
+    const res = await api.deleteVal(key)
+    setDelResult(JSON.stringify(res, null, 2))
+    refresh()
+  }
+
+  return (
+    <main className='container'>
+      <header className='hero'>
+        <h1>Redis Key Manager</h1>
+        <p className='subtitle'>
+          React + Vite frontend connected to your Bun server
+        </p>
+      </header>
+
+      <section className='grid'>
+        <div className='card'>
+          <h2>Set a key</h2>
+          <label>
+            Key
+            <input
+              value={setKey}
+              onChange={(e) => setSetKey(e.target.value)}
+              placeholder='my:key'
+            />
+          </label>
+          <label>
+            Value
+            <input
+              value={setVal}
+              onChange={(e) => setSetVal(e.target.value)}
+              placeholder='some value'
+            />
+          </label>
+          <button onClick={handleSet}>Set Value</button>
+        </div>
+
+        <div className='card'>
+          <h2>Get a key</h2>
+          <label>
+            Key
+            <input
+              value={getKey}
+              onChange={(e) => setGetKey(e.target.value)}
+              placeholder='my:key'
+            />
+          </label>
+          <button onClick={() => handleGet()}>Get Value</button>
+          <pre className='result'>{getResult}</pre>
+        </div>
+
+        <div className='card'>
+          <h2>Delete a key</h2>
+          <label>
+            Key
+            <input
+              value={delKey}
+              onChange={(e) => setDelKey(e.target.value)}
+              placeholder='my:key'
+            />
+          </label>
+          <button className='danger' onClick={() => handleDelete()}>
+            Delete
+          </button>
+          <pre className='result'>{delResult}</pre>
+        </div>
+
+        <div className='card wide'>
+          <div className='row'>
+            <h2>All keys</h2>
+            <div>
+              <button onClick={refresh}>Refresh</button>
+              <button className='secondary' onClick={() => setKeys([])}>
+                Clear
+              </button>
+            </div>
+          </div>
+          <ul className='keys-list'>
+            {loading && <li className='muted'>Loading…</li>}
+            {!loading && keys.length === 0 && (
+              <li className='muted'>(no keys)</li>
+            )}
+            {!loading &&
+              keys.map((k) => (
+                <KeyItem
+                  key={k}
+                  k={k}
+                  onGet={handleGet}
+                  onDelete={handleDelete}
+                />
+              ))}
+          </ul>
+        </div>
+      </section>
+
+      <footer className='footer'>
+        Run backend at <code>localhost:3355</code>. Dev server proxies API calls
+        to it.
+      </footer>
+    </main>
+  )
+}
