@@ -4,6 +4,6 @@ COPY package.json ./
 RUN bun install
 COPY . .
 
-EXPOSE 5060
+EXPOSE 3344
 
-CMD [ "bun", "index.ts"  ]
+CMD [ "bun", "start"  ]
