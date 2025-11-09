@@ -3,8 +3,16 @@ import { RedisClient } from 'bun'
 import cors from 'cors'
 
 const port = Bun.env.PPORT || 3355
-const redis_port = Bun.env.REDIS_PORT || 6379
-const client = new RedisClient(`redis://localhost:${redis_port}`)
+// Make Redis host/port configurable so containerized server can reach Redis
+// from the host or other container. Set REDIS_HOST to one of:
+// - 'localhost' (default when running on the host)
+// - 'host.docker.internal' (Docker Desktop / Linux with host-gateway)
+// - 'redis' (service name when using docker-compose)
+const redis_host = Bun.env.REDIS_HOST || 'localhost'
+const redis_port = Bun.env.REDIS_PORT || 6370
+const redisUrl = `redis://${redis_host}:${redis_port}`
+console.log('Connecting to Redis at', redisUrl)
+const client = new RedisClient(redisUrl)
 const app = express()
 
 console.log(port)
