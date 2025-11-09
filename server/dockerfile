@@ -4,9 +4,10 @@ COPY package.json .
 RUN bun install
 COPY . .
 
-ENV REDIS_PORT=6370
+ENV REDIS_HOST=my-redis  
+ENV REDIS_PORT=6379      
 ENV PPORT=4456
 
-EXPOSE 3344
+EXPOSE 4456
 
 CMD [ "bun", "start"]

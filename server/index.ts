@@ -2,14 +2,14 @@ import express, { json } from 'express'
 import { RedisClient } from 'bun'
 import cors from 'cors'
 
-const port = Bun.env.PPORT || 3355
 // Make Redis host/port configurable so containerized server can reach Redis
 // from the host or other container. Set REDIS_HOST to one of:
 // - 'localhost' (default when running on the host)
 // - 'host.docker.internal' (Docker Desktop / Linux with host-gateway)
 // - 'redis' (service name when using docker-compose)
-const redis_host = Bun.env.REDIS_HOST || 'localhost'
-const redis_port = Bun.env.REDIS_PORT || 6370
+const port = Bun.env.PPORT || 3355
+const redis_host = Bun.env.REDIS_HOST || 'my-redis' // ← Container name
+const redis_port = Bun.env.REDIS_PORT || 6379 // ← Internal port 6379
 const redisUrl = `redis://${redis_host}:${redis_port}`
 console.log('Connecting to Redis at', redisUrl)
 const client = new RedisClient(redisUrl)
@@ -39,7 +39,7 @@ app.use(
 )
 
 app.get('/', (req, res) => {
-  console.log("GET / - success")
+  console.log('GET / - success')
   res.json({ stat: 'success' })
 })
 
@@ -47,7 +47,7 @@ app.post('/getVal', async (req, res) => {
   try {
     const { key } = req.body
     if (!key) {
-      console.warn("POST /getVal - missing key in request body")
+      console.warn('POST /getVal - missing key in request body')
       return res.status(400).json({ stat: 'error', message: 'Key is required' })
     }
     const val = await client.get(key)
@@ -63,7 +63,7 @@ app.post('/setVal', async (req, res) => {
   try {
     const { key, val } = req.body
     if (!key || val === undefined) {
-      console.warn("POST /setVal - missing key or value", { key, val })
+      console.warn('POST /setVal - missing key or value', { key, val })
       return res
         .status(400)
         .json({ stat: 'error', message: 'Key and value are required' })
@@ -92,7 +92,7 @@ app.delete('/deleteV', async (req, res) => {
   try {
     const { key } = req.body
     if (!key) {
-      console.warn("DELETE /deleteV - missing key in request body")
+      console.warn('DELETE /deleteV - missing key in request body')
       return res.status(400).json({ stat: 'error', message: 'Key is required' })
     }
 
