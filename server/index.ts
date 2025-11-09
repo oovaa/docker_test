@@ -98,6 +98,8 @@ app.use((err: any, req: any, res: any, next: any) => {
   res.status(500).json({ stat: 'error', message: 'Something went wrong!' })
 })
 
+console.log(await client.keys('*'))
+
 // @ts-ignore
 app.listen(port, '0.0.0.0', () => {
   console.log(
