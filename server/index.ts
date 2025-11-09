@@ -1,13 +1,15 @@
 import express, { json } from 'express'
 import { RedisClient } from 'bun'
+import cors from 'cors'
 
 const port = Bun.env.PPORT || 3355
-const redis_port = Bun.env.REDIS_PORT || 6370
+const redis_port = Bun.env.REDIS_PORT || 6379
 const client = new RedisClient(`redis://localhost:${redis_port}`)
 const app = express()
 
 // Add middleware to parse JSON bodiesg
 app.use(json())
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.json({ stat: 'success' })
