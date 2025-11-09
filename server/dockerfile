@@ -4,7 +4,7 @@ COPY package.json .
 RUN bun install
 COPY . .
 
-ENV REDIS_HOST=localhost
+ENV REDIS_HOST=my-redis
 ENV REDIS_PORT=6379
 ENV PPORT=4456
 
