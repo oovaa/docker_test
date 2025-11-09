@@ -7,9 +7,28 @@ const redis_port = Bun.env.REDIS_PORT || 6379
 const client = new RedisClient(`redis://localhost:${redis_port}`)
 const app = express()
 
+console.log(port)
+console.log(redis_port)
+
 // Add middleware to parse JSON bodiesg
 app.use(json())
 app.use(cors())
+
+// Simple logging middleware
+app.use(
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const start = Date.now()
+    res.on('finish', () => {
+      const duration = Date.now() - start
+      console.log(
+        `${new Date().toISOString()} ${req.method} ${req.originalUrl} ${
+          res.statusCode
+        } - ${duration}ms \n body ${req.body}`
+      )
+    })
+    next()
+  }
+)
 
 app.get('/', (req, res) => {
   res.json({ stat: 'success' })
