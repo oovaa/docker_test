@@ -22,3 +22,5 @@ services:
       - "6655:5173"
     environment:
       - VITE_HOST=http://server:4456
+    depends_on:
+      - server
