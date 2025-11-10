@@ -1,25 +1,51 @@
 import React, { useEffect, useState } from 'react'
 
+const host = import.meta.env.VITE_HOST ?? 'http://localhost'
+const server_port = import.meta.env.VITE_SERVER_PORT ?? '4456'
+
 const api = {
-  getAll: () => fetch('/getall').then((r) => r.json()),
+  getAll: () => fetchJson(`${host}:${server_port}/getall`),
   getVal: (key) =>
-    fetch('/getVal', {
-      method: 'POST',
+    fetchJson(`${host}:${server_port}/getVal`, {
+      method: `POST`,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key }),
-    }).then((r) => r.json()),
+    }),
   setVal: (key, val) =>
-    fetch('/setVal', {
-      method: 'POST',
+    fetchJson(`${host}:${server_port}/setVal`, {
+      method: `POST`,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key, val }),
-    }).then((r) => r.json()),
+    }),
   deleteVal: (key) =>
-    fetch('/deleteV', {
-      method: 'DELETE',
+    fetchJson(`${host}:${server_port}/deleteV`, {
+      method: `DELETE`,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key }),
-    }).then((r) => r.json()),
+    }),
+}
+
+// small fetch helper that returns parsed JSON on success, and throws a helpful
+// Error containing status + server body text on failure. This avoids `r.json()`
+// throwing "Unexpected end of JSON input" when the server returns empty or
+// non-JSON error responses.
+async function fetchJson(input, init) {
+  const res = await fetch(input, init)
+  const text = await res.text()
+  if (!res.ok) {
+    // include server body text if present, otherwise status text
+    const msg = text?.trim()
+      ? `${res.status} ${res.statusText}: ${text}`
+      : `${res.status} ${res.statusText}`
+    throw new Error(msg)
+  }
+  if (!text) return null
+  try {
+    return JSON.parse(text)
+  } catch (e) {
+    // return raw text under a generic shape if JSON parsing fails
+    return { status: 'success', data: text }
+  }
 }
 
 function KeyItem({ k, onGet, onDelete }) {
