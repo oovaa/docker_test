@@ -21,5 +21,5 @@ services:
     ports:
       - "6655:5173"
     environment:
-      - VITE_HOST=http://server
-      - VITE_SERVER_PORT=4456
+      - VITE_HOST: http://server
+      - VITE_SERVER_PORT: 4456
