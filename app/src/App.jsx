@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-const host = import.meta.env.VITE_HOST || Bun.env.VITE_HOST
-const server_port = import.meta.env.VITE_SERVER_PORT || Bun.env.VITE_SERVER_PORT
+const host = import.meta.env.VITE_HOST
+const server_port = import.meta.env.VITE_SERVER_PORT
 
 console.log(host, server_port)
 
