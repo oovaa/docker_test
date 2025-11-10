@@ -30,7 +30,7 @@ docker-compose down
 
 ### Docker Details
 
-- Both `server` and `app` use Ubuntu-based Bun images (`oven/bun:1.3.1`)
+- Both `server` and `app` use Ubuntu 22.04 as the base image with Bun installed
 - The app container is configured to call the server API via `http://server:4456` (internal Docker network)
 - All services are properly networked and can communicate with each other
 

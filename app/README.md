@@ -37,7 +37,7 @@ Vite dev server proxies these paths to the backend (see `vite.config.js`). For p
 
 ## Docker
 
-The `app/dockerfile` uses the Ubuntu-based Bun image (`oven/bun:1.3.1`) to build and serve the app. 
+The `app/dockerfile` uses Ubuntu 22.04 as the base image with Bun installed to build and serve the app. 
 
 When running with Docker Compose:
 - The app is built with `VITE_HOST` set to `http://server:4456` (the internal Docker service name)

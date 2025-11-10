@@ -71,7 +71,7 @@ bun start
 
 ## Docker
 
-The server includes a Dockerfile using the Ubuntu-based Bun image (`oven/bun:1.3.1`). When running in Docker Compose:
+The server includes a Dockerfile using Ubuntu 22.04 as the base image with Bun installed. When running in Docker Compose:
 - Set `PPORT` to the port the server should listen on (default: `4456`)
 - Set `REDIS_HOST` to the Redis service name (e.g., `my_redis_cache` when using docker-compose)
 - Set `REDIS_PORT` to the internal Redis port (default: `6379`)
