@@ -37,7 +37,20 @@ Vite dev server proxies these paths to the backend (see `vite.config.js`). For p
 
 ## Docker
 
-The `app/dockerfile` included in the repo builds the app using the `oven/bun` image and runs `bun run preview` on port `5173`. Ensure you build the image with the correct Dockerfile path (case-sensitive) and publish the container port when running.
+The `app/dockerfile` uses Ubuntu 22.04 as the base image with Bun installed to build and serve the app. 
+
+When running with Docker Compose:
+- The app is built with `VITE_HOST` set to `http://server:4456` (the internal Docker service name)
+- The preview server runs on port `5173` inside the container, exposed as `6655` on the host
+- The app container can communicate with the server container using Docker's internal networking
+
+To run with Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+Access the app at `http://localhost:6655` from your browser. The app will communicate with the server API at `http://server:4456` (internal Docker network).
 
 ## Notes
 

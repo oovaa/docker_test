@@ -1,4 +1,13 @@
-FROM oven/bun:1.3.1-alpine
+FROM ubuntu:22.04
+
+# Install curl and unzip for Bun installation
+RUN apt-get update && apt-get install -y curl unzip && rm -rf /var/lib/apt/lists/*
+
+# Install Bun
+RUN curl -fsSL https://bun.sh/install | bash
+
+# Add Bun to PATH
+ENV PATH="/root/.bun/bin:${PATH}"
 
 WORKDIR /app
 
@@ -9,11 +18,13 @@ RUN bun install
 
 COPY . .
 
-ENV VITE_HOST=http://143.110.226.0:4456
+# VITE_HOST will be set via docker-compose.yaml environment variables
+# Default to localhost for local testing
+ENV VITE_HOST=http://localhost:4456
 
 RUN bun run build
 
-# EXPOSE 5173
+EXPOSE 5173
 
 # Ensure the process binds to 0.0.0.0 so the port is reachable from the host
 CMD ["bun", "run", "preview", "--", "--host", "0.0.0.0", "--port", "5173"]

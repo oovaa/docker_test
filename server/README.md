@@ -71,9 +71,20 @@ bun start
 
 ## Docker
 
-- The server currently does not include a Dockerfile in the `server/` folder in this repo snapshot. If you containerize the server, ensure:
-  - environment variables `PPORT` and `REDIS_PORT` are set appropriately
-  - the container can reach the Redis service (networking / compose service)
+The server includes a Dockerfile using Ubuntu 22.04 as the base image with Bun installed. When running in Docker Compose:
+- Set `PPORT` to the port the server should listen on (default: `4456`)
+- Set `REDIS_HOST` to the Redis service name (e.g., `my_redis_cache` when using docker-compose)
+- Set `REDIS_PORT` to the internal Redis port (default: `6379`)
+
+The server listens on `0.0.0.0` to accept connections from other Docker containers and the host.
+
+To run with Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+The server will be accessible at `http://localhost:4456` from your host machine, and at `http://server:4456` from other containers in the same Docker network.
 
 ## Notes and implementation details
 
