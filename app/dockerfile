@@ -9,9 +9,7 @@ RUN bun install
 
 COPY . .
 
-ENV VITE_SERVER_PORT=4456
-
-ENV VITE_HOST=http://server
+ENV VITE_HOST=http://server:4456
 
 RUN bun run build
 
