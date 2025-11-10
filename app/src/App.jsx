@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react'
 
-const host = import.meta.env.VITE_HOST
-const server_port = import.meta.env.VITE_SERVER_PORT
+const hostRaw = import.meta.env.VITE_HOST
+const host = hostRaw ? hostRaw.replace(/\/$/, '') : ''
 
-console.log(host, server_port)
+console.log('API host:', host)
 
 const api = {
-  getAll: () => fetchJson(`${host}:${server_port}/getall`),
+  getAll: () => fetchJson(`${host}/getall`),
   getVal: (key) =>
-    fetchJson(`${host}:${server_port}/getVal`, {
+    fetchJson(`${host}/getVal`, {
       method: `POST`,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key }),
     }),
   setVal: (key, val) =>
-    fetchJson(`${host}:${server_port}/setVal`, {
+    fetchJson(`${host}/setVal`, {
       method: `POST`,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key, val }),
     }),
   deleteVal: (key) =>
-    fetchJson(`${host}:${server_port}/deleteV`, {
+    fetchJson(`${host}/deleteV`, {
       method: `DELETE`,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key }),
@@ -207,8 +207,8 @@ export default function App() {
       </section>
 
       <footer className='footer'>
-        Run backend at <code>localhost:3355</code>. Dev server proxies API calls
-        to it.
+        Run backend at <code>{host || 'localhost:3355'}</code>. Dev server
+        proxies API calls to it.
       </footer>
     </main>
   )
