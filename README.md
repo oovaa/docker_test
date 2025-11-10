@@ -12,7 +12,7 @@ Quick overview
 The easiest way to run the entire stack (Redis + Backend + Frontend) is using Docker Compose:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 This will start:
@@ -25,8 +25,10 @@ The app container communicates with the server container using Docker's internal
 To stop all services:
 
 ```bash
-docker-compose down
+docker compose down
 ```
+
+For detailed Docker setup information, troubleshooting, and testing instructions, see [DOCKER_SETUP.md](DOCKER_SETUP.md).
 
 ### Docker Details
 
