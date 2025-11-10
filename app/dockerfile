@@ -11,7 +11,7 @@ COPY . .
 
 # ENV VITE_SERVER_PORT=4456
 
-# ENV VITE_HOST=http://143.110.226.0
+# ENV VITE_HOST=http://server
 
 RUN bun run build
 

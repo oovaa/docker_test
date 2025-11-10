@@ -10,11 +10,11 @@ services:
     ports:
       - "4456:4456"
     environment:
-      - PPORT=3344
+      - PPORT=4456
       - REDIS_PORT=6379
-      - REDIS_HOST=my_redis_cache  # ✅ Fixed hostname
+      - REDIS_HOST=my_redis_cache
     depends_on:
-      - redis  # ✅ Wait for Redis
+      - redis
 
   app:
     build: ./app
@@ -23,7 +23,3 @@ services:
     environment:
       - VITE_HOST=http://server
       - VITE_SERVER_PORT=4456
-    
-  networks:
-  default:
-    driver: bridge

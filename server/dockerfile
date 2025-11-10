@@ -4,4 +4,6 @@ COPY package.json .
 RUN bun install
 COPY . .
 
+EXPOSE 4456
+
 CMD [ "bun", "start"]
