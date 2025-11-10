@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-const host = import.meta.env.VITE_HOST ?? 'http://localhost'
-const server_port = import.meta.env.VITE_SERVER_PORT ?? '4456'
+const host = import.meta.env.VITE_HOST
+const server_port = import.meta.env.VITE_SERVER_PORT
 
 const api = {
   getAll: () => fetchJson(`${host}:${server_port}/getall`),

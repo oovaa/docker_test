@@ -7,9 +7,9 @@ import cors from 'cors'
 // - 'localhost' (default when running on the host)
 // - 'host.docker.internal' (Docker Desktop / Linux with host-gateway)
 // - 'redis' (service name when using docker-compose)
-const port = Bun.env.PPORT || 3355
-const redis_host = Bun.env.REDIS_HOST || 'my-redis' // ← Container name
-const redis_port = Bun.env.REDIS_PORT || 6379 // ← Internal port 6379
+const port = Bun.env.PPORT
+const redis_host = Bun.env.REDIS_HOST // ← Container name
+const redis_port = Bun.env.REDIS_PORT // ← Internal port 6379
 const redisUrl = `redis://${redis_host}:${redis_port}`
 console.log('Connecting to Redis at', redisUrl)
 const client = new RedisClient(redisUrl)
