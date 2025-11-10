@@ -9,7 +9,7 @@ RUN bun install
 
 COPY . .
 
-ENV VITE_HOST=http://143.110.226.0:
+ENV VITE_HOST=http://143.110.226.0
 
 RUN bun run build
 
