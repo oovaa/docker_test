@@ -18,8 +18,6 @@ services:
       - redis
 
   app:
-    environment:
-      - VITE_HOST="http://143.110.226.0:4456"
     build: ./app
     ports:
       - "6655:5173"
