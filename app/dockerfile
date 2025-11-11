@@ -20,10 +20,10 @@ COPY . .
 
 # VITE_HOST will be set via docker-compose.yaml environment variables
 # Default to localhost for local testing
+ENV VITE_HOST=http://143.110.226.0:4456
 
 RUN bun run build
 
-ENV VITE_HOST=http://143.110.226.0:4456
 
 EXPOSE 5173
 
