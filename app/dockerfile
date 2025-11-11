@@ -20,7 +20,7 @@ COPY . .
 
 # VITE_HOST will be set via docker-compose.yaml environment variables
 # Default to localhost for local testing
-ENV VITE_HOST=http://server:4456
+# ENV VITE_HOST=http://server:4456
 
 RUN bun run build
 
